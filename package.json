@@ -1,15 +1,17 @@
 {
-  "name": "notif_me",
+  "name": "notify_me",
   "version": "0.0.1",
-  "description": "",
+  "description": "provides notifications for all your services.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Vlad Shevtsov",
+  "license": "MIT",
   "dependencies": {
     "amqp": "0.2.6",
-    "dotenv": "2.0.0"
+    "dotenv": "2.0.0",
+    "request": "2.74.0",
+    "request-promise": "4.1.1"
   }
 }
