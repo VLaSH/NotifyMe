@@ -20,6 +20,7 @@ module.exports = function() {
       collection = db.collection('notifications');
       collection.find(query, function(err, cursor) {
         cursor.toArray(callback);
+        db.close();
       })
     })
   }
