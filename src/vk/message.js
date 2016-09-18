@@ -78,7 +78,7 @@ function serialize(data) {
 }
 
 function publish(data) {
-  messageProducer(data)
+  messageProducer(data);
 }
 
 module.exports = Message;

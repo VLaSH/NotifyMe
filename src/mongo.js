@@ -17,7 +17,7 @@ module.exports = function() {
   Mongo.find = function find(query, callback) {
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
-      collection = db.collection('notifications');
+      var collection = db.collection('notifications');
       collection.find(query, function(err, cursor) {
         cursor.toArray(callback);
         db.close();
