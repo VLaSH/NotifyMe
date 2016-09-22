@@ -6,16 +6,18 @@ if(!process.env.VK_TEST_TOKEN) {
   throw new Error('No token specified');
 }
 
-module.exports = function() {
-  var Client = {}
-  var baseUri = 'https://api.vk.com/method';
+class Client {
+  constructor(token) {
+    this.baseUri = 'https://api.vk.com/method';
+    this.token = token;
+  }
 
-  Client.messages = function messages(count) {
+  messages(count) {
     var options = {
       method: 'GET',
-      uri: baseUri + '/messages.get',
+      uri: this.baseUri + '/messages.get',
       qs: {
-        access_token: process.env.VK_TEST_TOKEN,
+        access_token: this.token,
         v: '5.53',
         count: count
       },
@@ -25,12 +27,12 @@ module.exports = function() {
     return http(options);
   }
 
-  Client.getCounters = function getCounters(filter) {
+  getCounters(filter) {
     var options = {
       method: 'GET',
-      uri: baseUri + '/account.getCounters',
+      uri: this.baseUri + '/account.getCounters',
       qs: {
-        access_token: process.env.VK_TEST_TOKEN,
+        access_token: this.token,
         v: '5.53',
         filter: filter
       },
@@ -40,10 +42,10 @@ module.exports = function() {
     return http(options);
   }
 
-  Client.getUsers = function getUsers(ids) {
+  getUsers(ids) {
     var options = {
       method: 'GET',
-      uri: baseUri + '/users.get',
+      uri: this.baseUri + '/users.get',
       qs: {
         v: '5.53',
         user_ids: ids,
@@ -56,15 +58,15 @@ module.exports = function() {
     return http(options);
   }
 
-  Client.getDialogs = function getDialogs(count) {
+  getDialogs(count) {
     var options = {
       method: 'GET',
-      uri: baseUri + '/messages.getDialogs',
+      uri: this.baseUri + '/messages.getDialogs',
       qs: {
         v: '5.53',
         count: count,
         unread: true,
-        access_token: process.env.VK_TEST_TOKEN
+        access_token: this.token
       },
       json: true
     };
@@ -72,22 +74,21 @@ module.exports = function() {
     return http(options);
   }
 
-  Client.getHistory = function getHistory(count, type, id) {
+  getHistory(count, type, id) {
     var options = {
       method: 'GET',
-      uri: baseUri + '/messages.getHistory',
+      uri: this.baseUri + '/messages.getHistory',
       qs: {
         v: '5.53',
         count: count,
-        access_token: process.env.VK_TEST_TOKEN
+        access_token: this.token
       },
       json: true
     };
     options.qs[type] = id
-    console.log(options.qs);
 
     return http(options);
   }
-
-  return Client;
 }
+
+module.exports = Client;

@@ -1,15 +1,11 @@
 var amqp = require('amqp');
 
-module.exports = function() {
-  var connection = amqp.createConnection({ host: 'localhost' });
+class Rabbit {
+  constructor() {
+  }
 
-  connection.on('error', function(e) {
-    console.log("Error from amqp: ", e);
-  });
-
-  var Rabbit = {}
-
-  Rabbit.subscribe = function subscribe(queue, callback) {
+  subscribe(queue, callback) {
+    var connection = this.connection();
     connection.on('ready', function () {
       connection.queue(queue, function (q) {
         connection.exchange('vk', null, function(exchange) {
@@ -20,17 +16,24 @@ module.exports = function() {
     });
   }
 
-  Rabbit.publish = function subscribe(queue, message) {
-      setTimeout(function() {
-        connection.exchange('vk', null, function(e) {
-          e.publish(queue, message, null, function(err) {
-            console.log(err);
-          });
+  publish(queue, message) {
+    var connection = this.connection();
+    setTimeout(function() {
+      connection.exchange('vk', null, function(e) {
+        e.publish(queue, message, null, function(err) {
+          console.log(err);
         });
-      }, 100);
+      });
+    }, 3000);
   }
 
-  return Rabbit;
-  // Wait for connection to become established.
-
+  connection() {
+    var connection = amqp.createConnection({ host: 'localhost' });
+    connection.on('error', function(e) {
+      console.log("Error from amqp: ", e);
+    });
+    return connection;
+  }
 }
+
+module.exports = Rabbit;

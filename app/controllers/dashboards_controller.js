@@ -11,21 +11,32 @@
     $scope.loggedIn = false;
 
     $scope.say = function() {
-      ipcRenderer.send('return-notifications');
-      ipcRenderer.on('notifications-list', function(data, b) {
+      ipcRenderer.send('vk/notifications/fetch_local');
+      ipcRenderer.once('vk/notifications/fetch_local/response', function(e, data) {
+        console.log(data);
         $scope.$apply(function() {
-          $scope.notifications = b;
+          $scope.notifications = data;
         });
       })
     }
 
     $scope.login = function() {
-      ipcRenderer.send('login');
-      ipcRenderer.on('logged-in', function(data, b) {
-        console.log('logged-in');
-        $scope.$apply(function() {
-          $scope.loggedIn = true
-        })
+      ipcRenderer.send('vk/auth/check');
+      ipcRenderer.once('vk/auth/check/response', function(e, data) {
+        console.log(data);
+        if(data.length == 0) {
+          ipcRenderer.send('vk/auth/login')
+          ipcRenderer.once('vk/auth/login/response', function(e, data) {
+            $scope.$apply(function() {
+              $scope.loggedIn = true
+            })
+          })
+        } else {
+          console.log('lol');
+          $scope.$apply(function() {
+            $scope.loggedIn = true
+          })
+        }
       })
     }
 	}

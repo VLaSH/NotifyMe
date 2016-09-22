@@ -1,13 +1,37 @@
-var messageProducer = require('./message/message_producer');
-var client = require('./client')();
+var Client = require('./client'),
+    client;
 var messages = [];
 var users = [];
 var _ = require('underscore');
+var Rabbit = require('../rabbit'),
+    rabbit = new Rabbit();
+var Mongo = require('../mongo')();
+var assert = require('assert');
 
 function Message() {
+  rabbit.subscribe('vk.message', function(data) {
+    Mongo.connection(function(db) {
+      var collection = db.collection('notifications');
+
+      collection.createIndex({ message_id: 1 }, { unique: true });
+      collection.insertMany(data.message, { ordered: false }, function(err, result) {
+        if(err) {
+          console.log(err.message);
+          return false;
+        }
+        console.log('inserted', err);
+        assert.equal(err, null);
+        assert.equal(data.message.length, result.result.n);
+        assert.equal(data.message.length, result.ops.length);
+        console.log("Inserted " + data.message.length + " notifications into the collection");
+        db.close();
+      });
+    });
+  });
 };
 
-Message.prototype.call = function call() {
+Message.prototype.call = function call(token) {
+  client = new Client(token);
   client.getCounters('messages')
     .then(getDialogs)
     .then(getHistory)
@@ -19,7 +43,10 @@ Message.prototype.call = function call() {
     })
 };
 
+Message.prototype.publish = publish;
+
 function getDialogs(data) {
+  console.log(data);
   var count = data.response.messages
   if(count <= 0)
     return new Error('No notifications!');
@@ -27,7 +54,6 @@ function getDialogs(data) {
 }
 
 function getHistory(data) {
-  console.log(data);
   var dialogs = data.response.items
   var history = [];
   for (let dialog of dialogs) {
@@ -57,7 +83,7 @@ function getUsers(data) {
 
 function serialize(data) {
   users = data.response
-  result =  messages.map(function(message) {
+  var result =  messages.map(function(message) {
     var user = users.find(function(user) {
       return message.user_id == user.id
     });
@@ -70,15 +96,16 @@ function serialize(data) {
       text: message.body,
       date: new Date(message.date * 1000),
       type: 'message',
-      status: 'unread'
+      status: 'unread',
+      provider: 'vk'
     }
   });
 
   publish(result);
 }
 
-function publish(data) {
-  messageProducer(data);
-}
+function publish(message) {
+  rabbit.publish('vk.message', { message: message });
+};
 
 module.exports = Message;

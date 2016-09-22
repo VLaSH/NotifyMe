@@ -1,5 +1,5 @@
 module.exports = function() {
-  Config = {};
+  var Config = {};
 
   Config.fetchProviders = function fetchProviders() {
     // add ability to fetch providers from config

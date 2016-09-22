@@ -14,10 +14,10 @@ module.exports = function() {
     });
   }
 
-  Mongo.find = function find(query, callback) {
+  Mongo.find = function find(collectionName, query, callback) {
     MongoClient.connect(url, function(err, db) {
       assert.equal(null, err);
-      var collection = db.collection('notifications');
+      var collection = db.collection(collectionName);
       collection.find(query, function(err, cursor) {
         cursor.toArray(callback);
         db.close();
