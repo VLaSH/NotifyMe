@@ -12,10 +12,11 @@ var mainWindow = null;
 app.on('ready', function() {
     mainWindow = new BrowserWindow({
         frame: false,
-        height: 700,
+        height: 300,
         resizable: false,
-        width: 700
+        width: 250
     });
+    mainWindow.webContents.openDevTools({ mode: 'detach' })
     var networks = new Networks(mainWindow);
     networks.init();
     mainWindow.loadURL('file://' + __dirname + views + '/index.jade');

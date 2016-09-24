@@ -1,11 +1,3 @@
 extends layout
 block body
-  div(ng-app='app')
-    div(ng-controller='DashboardsController as dash')
-      button(ng-click='say()')
-      button(ng-click='login()') login
-      h1 Logged In?
-        | {{loggedIn}}
-      ul#notifications_list
-        li(ng-repeat='notif in notifications')
-          |  {{notif.text}}
+  ui-view

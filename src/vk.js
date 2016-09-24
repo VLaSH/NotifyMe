@@ -61,7 +61,7 @@ class Vk {
 
           return new err;
         } else {
-          _this.mainWindow.webContents.send('vk/auth/check/response', []);
+          _this.mainWindow.webContents.send('vk/auth/check/response', data);
 
           log.info('[VK][Event]: *vk/auth/check* Completed');
         }

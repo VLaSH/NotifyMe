@@ -1,0 +1,5 @@
+div
+  div(ng-repeat='provider in providers')
+    div(class="{{provider.provider}}-network", ui-sref='notifications({ provider: provider.provider })', href='#')
+  div.add-network.clickable(ng-click='dialog()', href='#')
+a(ui-sref='notifications')

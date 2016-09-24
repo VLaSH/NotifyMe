@@ -4,3 +4,99 @@ h1 {
     background: @base;
     margin-top: 100px;
 }
+.add-network {
+  float: left;
+  margin-left: 15px;
+  margin-top: 5px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  background-image: url("../img/add_network.png");
+  background-position: center;
+}
+
+.clickable {
+  box-shadow: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.clickable:hover {
+  -webkit-box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+  box-shadow: 1px 2px 7px 0px rgba(0,0,0,0.75);
+  transform: scale(1.1, 1.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.clickable:active {
+  box-shadow: none;
+  transition: all 0.1s ease-in-out;
+  transform: scale(1, 1);
+}
+
+body {
+  margin: 15px;
+  height: 300px;
+  width: 235px;
+  background: linear-gradient(141deg, #F5EFED 10%, #E2D9B6 50%, #FFFFFF 140%);
+}
+
+//==============================================================================
+//DIALOG
+//==============================================================================
+@keyframes slideDown {
+    from {transform: translateY(-100px);}
+    to {transform: translateY(0);}
+}
+
+@keyframes slideUp {
+    from {transform: translateY(0);}
+    to {transform: translateY(-100px);}
+}
+
+
+.ngdialog-overlay {
+  display: none;
+}
+
+.ngdialog-content {
+  padding: 15px;
+  height: 100px;
+  width: 250px;
+  -webkit-box-shadow: 0px 5px 50px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 5px 50px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 5px 50px 0px rgba(0,0,0,0.75);
+}
+
+.ngdialog {
+  animation-name: slideDown;
+  animation-duration: 0.5s;
+}
+
+.ngdialog-closing {
+  animation-name: slideUp;
+  animation-duration: 0.5s;
+}
+
+.ngdialog-close {
+  margin-top: 60px;
+  margin-left: 210px;
+  background-color: gray;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  border-radius: 50%;
+}
+//==============================================================================
+//Dialog Networks
+//==============================================================================
+.vk-network {
+  width: 48px;
+  height: 48px;
+  background-color: #247CB7;
+  background-image: url("../img/Vk-icon.png");
+  background-size: 42px 42px;
+  background-position: center;
+  float: left;
+}
