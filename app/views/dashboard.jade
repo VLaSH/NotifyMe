@@ -1,5 +1,6 @@
 div
   div(ng-repeat='provider in providers')
     div(class="{{provider.provider}}-network", ui-sref='notifications({ provider: provider.provider })', href='#')
+      div.counter(ng-if='notificationsCount[provider.provider] > 0') {{notificationsCount[provider.provider]}}
   div.add-network.clickable(ng-click='dialog()', href='#')
 a(ui-sref='notifications')

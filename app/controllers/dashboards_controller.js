@@ -5,11 +5,12 @@
 
 	angular
 		.module('app')
-		.controller('DashboardsController', ['$scope', 'ngDialog', DashboardsController]);
+		.controller('DashboardsController', ['$scope', 'ngDialog', '$state', DashboardsController]);
 
-	function DashboardsController($scope, ngDialog) {
+	function DashboardsController($scope, ngDialog, $state) {
     $scope.loggedIn = false;
     $scope.providers = [];
+    $scope.notificationsCount = {};
 
     $scope.dialog = function() {
       var dial = ngDialog.open({
@@ -55,9 +56,23 @@
       ipcRenderer.once('providers/fetch/response', function(e, data) {
         $scope.providers = addUnique($scope.providers, data);
         $scope.$apply();
+        $scope.fetchNotificationsCount();
       })
     }
     $scope.fetchProviders();
+
+    $scope.fetchNotificationsCount = function() {
+      $scope.providers.forEach(function(provider) {
+        ipcRenderer.send(provider.provider + '/notifications/count');
+        ipcRenderer.once(provider.provider + '/notifications/count/response', function(e, data) {
+          console.log(data);
+          $scope.notificationsCount[provider.provider] = data
+          $scope.$apply();
+        })
+      })
+
+    }
+    $scope.fetchNotificationsCount();
 
     $scope.close = function(data) {
       ngDialog.closeAll(data);

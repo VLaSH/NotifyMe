@@ -8,8 +8,9 @@ app.config(function($stateProvider) {
 
   var notifications = {
     name: 'notifications',
-    url: '/notifications',
-    templateUrl: '../views/notifications.jade'
+    url: '/notifications:provider',
+    templateUrl: '../views/notifications.jade',
+    controller: 'NotificationsController'
   }
 
   $stateProvider.state(dashboard);

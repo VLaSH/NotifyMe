@@ -19,7 +19,30 @@ module.exports = function() {
       assert.equal(null, err);
       var collection = db.collection(collectionName);
       collection.find(query, function(err, cursor) {
+        cursor.sort({ date: -1 })
         cursor.toArray(callback);
+        db.close();
+      })
+    })
+  }
+
+  Mongo.remove = function remove(collectionName, query, callback) {
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(collectionName);
+      collection.remove(query, function(err, numberOfRemovedDocs) {
+        callback(err, numberOfRemovedDocs)
+        db.close();
+      })
+    })
+  }
+
+  Mongo.update = function update(collectionName, finder, query, callback) {
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      var collection = db.collection(collectionName);
+      collection.updateOne(finder, query, function(err, data) {
+        callback(err, data)
         db.close();
       })
     })

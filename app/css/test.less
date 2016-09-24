@@ -4,6 +4,9 @@ h1 {
     background: @base;
     margin-top: 100px;
 }
+.content-wrap {
+  padding: 10px;
+}
 .add-network {
   float: left;
   margin-left: 15px;
@@ -35,10 +38,23 @@ h1 {
   transform: scale(1, 1);
 }
 
+.counter {
+  background-color: #CDFF05;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  color: blue;
+  border-radius: 50%;
+  margin-left: 31px;
+  margin-top: -5px;
+  font-family: helvetica;
+  background: linear-gradient(210deg, #FFFFFF 39%, #CDFF05 100%);
+}
+
 body {
-  margin: 15px;
-  height: 300px;
-  width: 235px;
+  margin: 0;
+  height: 350px;
+  width: 250px;
   background: linear-gradient(141deg, #F5EFED 10%, #E2D9B6 50%, #FFFFFF 140%);
 }
 
@@ -99,4 +115,62 @@ body {
   background-size: 42px 42px;
   background-position: center;
   float: left;
+}
+.vk-network-fixed {
+  width: 48px;
+  height: 48px;
+  background-color: #247CB7;
+  background-image: url("../img/Vk-icon.png");
+  background-size: 42px 42px;
+  background-position: center;
+}
+
+//==============================================================================
+//Notifications
+//==============================================================================
+.notification-card {
+  padding: 3px;
+  background-color: white;
+  margin-top: 10px;
+}
+
+//==============================================================================
+//Message
+//==============================================================================
+.message-title {
+  font-family: helvetica;
+  font-weight: 700;
+  color: #686868;
+  font-size: 14px;
+}
+.message-from {
+  float: right;
+  font-size: 10px;
+}
+.message-body {
+  word-wrap: break-word;
+  font-family: helvetica;
+  font-size: 13px;
+  font-weight: 300;
+  padding: 3px;
+}
+
+.user-image {
+  position: absolute;
+  margin-left: 180px;
+  height: 50px;
+  width: 50px;
+  margin-top: -60px;
+}
+
+.back {
+  margin-left: 90px;
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  background-image: url("../img/back.png");
+  background-position: center;
+  background-size: 50px;
+  background-repeat: no-repeat;
+  margin-top: -50px;
 }

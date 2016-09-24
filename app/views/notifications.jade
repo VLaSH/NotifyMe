@@ -1,3 +1,11 @@
 block body
-  div(ng-controller='NotificationsController')
-    div(ui-sref='dashboard') Back
+  div(class="{{provider}}-network-fixed")
+  div.back(ui-sref='dashboard')
+  img(class="user-image", src="{{notifications[0].photo}}")
+  div.notifications
+    div.notification-card(ng-repeat='notification in notifications')
+      div.message(ng-if="notification.type == 'message'", ng-click='makeRead(notification._id)')
+        div.message-from from:
+          | {{notification.first_name}} {{notification.last_name}}
+        div.message-title Message
+        div.message-body {{notification.text}}

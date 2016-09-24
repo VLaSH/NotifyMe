@@ -35,6 +35,36 @@ class Vk {
       });
     });
 
+    ipcMain.on('vk/notifications/update', function(e, data) {
+      log.info('[VK][Event]: *vk/notifications/update* Started');
+      Mongo.update('notifications', { _id: data.id }, { $set: { status: 'read' } }, function(err, data) {
+        if(err) {
+          log.error('[VK][Event]: *vk/notifications/update* Error ' + err);
+          return new err;
+        } else {
+          console.log(data);
+          _this.mainWindow.webContents.send('vk/notifications/update/response', data);
+
+          log.info('[VK][Event]: *vk/notifications/update* Completed');
+        }
+      });
+    });
+
+    ipcMain.on('vk/notifications/count', function(e, data) {
+      log.info('[VK][Event]: *vk/notifications/count* Started');
+      Mongo.find('notifications', { provider: 'vk', status: 'unread' }, function(err, data) {
+        if(err) {
+          log.error('[VK][Event]: *vk/notifications/count* Error ' + err);
+          return new err;
+        } else {
+          console.log(data.length);
+          _this.mainWindow.webContents.send('vk/notifications/count/response', data.length);
+
+          log.info('[VK][Event]: *vk/notifications/count* Completed');
+        }
+      });
+    });
+
     ipcMain.on('vk/auth/login', function(data) {
       log.info('[VK][Event]: *vk/auth/login* Started');
 
